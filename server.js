@@ -1,6 +1,8 @@
 const http = require("http")
 const fs = require("fs")
 const path = require("path")
+const mimetypes = require("mime")
+const { URL } = require("url")
 
 const server = http.createServer((req, res) => {
   const addPrefixToPath = (url) => {
@@ -12,7 +14,9 @@ const server = http.createServer((req, res) => {
   }
   let req_url = req.url
   let base_path = process.cwd()
-  let file_path = path.join(base_path, addPrefixToPath(req_url))
+  let uri = new URL(req_url, "http://localhost").pathname
+  let file_path = path.join(base_path, addPrefixToPath(uri))
+  let types = mimetypes.getType(file_path)
   let stat
 
   try {
@@ -26,7 +30,7 @@ const server = http.createServer((req, res) => {
 
   if (stat.isFile()) {
     fs.readFile(file_path, (err, data) => {
-      // res.writeHead(200, { "Content-Type": "text/html" })
+      res.writeHead(200, { "Content-Type": types })
       res.write(data)
       res.end()
     })
