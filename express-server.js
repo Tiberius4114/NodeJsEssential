@@ -4,10 +4,17 @@ const path = require("path")
 
 const mySystemMiddleware = (req, res, next) => {
   const url = req.url
-  if (url === "/") {
-    console.log("root middleware")
-  } else {
-    console.log("products middleware")
+
+  switch (url) {
+    case "/":
+      console.log("root middleware")
+      break
+    case "/products":
+      console.log("products middleware")
+      break
+    case "/contact-us":
+      console.log("contact-us middleware")
+      break
   }
   next()
 }
@@ -23,9 +30,15 @@ app.get("/", mySystemMiddleware, (req, res) => {
 
 app.get("/products", mySystemMiddleware, (req, res) => {
   const root_path = path.join(process.cwd(), "./views/products.html")
-  //   const root_path = path.join(__dirname, "./views/products.html")
-  //   const root_path = __dirname + "/views/products.html"
+
   res.sendFile(root_path)
+})
+app.get("/contact-us", mySystemMiddleware, (req, res) => {
+  const root_path = path.join(process.cwd(), "./views/contact-us.html")
+  res.sendFile(root_path)
+})
+app.post("/contact-us", mySystemMiddleware, (req, res) => {
+  res.end("form received")
 })
 
 app.use((req, res, next) => {
