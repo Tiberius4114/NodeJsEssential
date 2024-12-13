@@ -2,7 +2,7 @@
   "name": "nodejsessential",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "express-server.js",
   "scripts": {
     "start": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -21,6 +21,7 @@
     "nodemon": "^3.1.7"
   },
   "dependencies": {
+    "express": "^4.21.2",
     "mime": "^3.0.0"
   }
 }
