@@ -1,15 +1,24 @@
-const http = require("http")
 const express = require("express")
-
 const app = express()
+const path = require("path")
 
-app.use((req, res) => {
-  //   res.send("Welcome to the express")
-  res.end("Welcome to the express")
+app.get("/", (req, res) => {
+  //to get project directory path we could use process.cwd() and __dirname
+  //also using path to join them or join them with plus +
+
+  const root_path = path.join(process.cwd(), "./views/index.html")
+  //   const root_path = path.join(__dirname, "./views/index.html")
+  //   const root_path = __dirname + "/views/index.html"
+  res.sendFile(root_path)
 })
 
-const server = http.createServer(app)
+app.get("/products", (req, res) => {
+  const root_path = path.join(process.cwd(), "./views/products.html")
+  //   const root_path = path.join(__dirname, "./views/products.html")
+  //   const root_path = __dirname + "/views/products.html"
+  res.sendFile(root_path)
+})
 
-server.listen(3012, "127.0.0.1", () => {
+app.listen(3012, "127.0.0.1", () => {
   console.log("server listening on port 3012")
 })
