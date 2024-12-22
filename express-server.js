@@ -37,8 +37,6 @@ const mySystemMiddleware = (req, res, next) => {
 
 //using body parser as bodyParser module
 
-app.use(methodOverride("_method"))
-
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -48,6 +46,18 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json
 app.use(bodyParser.json())
+
+app.use(
+  methodOverride((req, res) => {
+    const req_body = req.body
+    if (req_body && typeof req_body === "object" && "_method" in req_body) {
+      // look in urlencoded POST bodies and delete it
+      let body_method = req_body._method
+      delete body_method
+      return body_method
+    }
+  })
+)
 
 app.get("/", mySystemMiddleware, (req, res) => {
   //to get project directory path we could use process.cwd() and __dirname
