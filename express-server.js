@@ -4,6 +4,8 @@ const path = require("path")
 const qs = require("querystring")
 const bodyParser = require("body-parser")
 
+const methodOverride = require("method-override")
+
 const mySystemMiddleware = (req, res, next) => {
   const url = req.url
   switch (url) {
@@ -35,8 +37,14 @@ const mySystemMiddleware = (req, res, next) => {
 
 //using body parser as bodyParser module
 
+app.use(methodOverride("_method"))
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
+
+// NOTE: when using req.body, you must fully parse the request body
+//       before you call methodOverride() in your middleware stack,
+//       otherwise req.body will not be populated.
 
 // parse application/json
 app.use(bodyParser.json())
@@ -77,7 +85,15 @@ app.get("/contact-us", mySystemMiddleware, (req, res) => {
 })
 
 app.post("/contact-us", mySystemMiddleware, (req, res) => {
-  res.send(req.body)
+  // res.send(req.body)
+  res.send(`${JSON.stringify(req.body)},this is a post request`)
+})
+
+app.delete("/contact-us", mySystemMiddleware, (req, res) => {
+  res.send(`${JSON.stringify(req.body)},this is a delete request`)
+})
+app.patch("/contact-us", mySystemMiddleware, (req, res) => {
+  res.send(`${JSON.stringify(req.body)},this is a patch request`)
 })
 
 app.use((req, res, next) => {
