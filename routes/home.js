@@ -22,6 +22,9 @@ router.get("/", homeMiddleware, (req, res) => {
   //to get project directory path we could use process.cwd() and __dirname
   //also using path to join them or join them with plus +
   const root_path = path.join(process.cwd(), "/views/index.html")
+  //   const p_path = path.join(process.cwd(), "/views/p-index.html")
+  //   const p_path_2 = path.join(process.cwd(), "/views/p-index2.html")
+  //   const p_path_3 = path.join(process.cwd(), "/views/p-index3.html")
   //!*NOTE*!: there is different between process.cwd() and __dirname in entire directory here
   //process.cwd() : D:\Projects\tuts\NodeJsEssential that is absolute path of project directory but
   //__dirname :D:\Projects\tuts\NodeJsEssential/routes : that in this situation we should come back from
@@ -30,6 +33,7 @@ router.get("/", homeMiddleware, (req, res) => {
   //   const root_path = path.join(__dirname, "./views/index.html")
   //   const root_path = __dirname + "/views/index.html"
   res.sendFile(root_path)
+  //   res.send("ok")
 })
 
 //PRODUCTS :

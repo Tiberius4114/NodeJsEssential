@@ -44,6 +44,7 @@ app.use(
   })
 )
 
+app.use(express.static("public"))
 app.use("/", homeRoutes)
 app.use("/admin", adminRoutes)
 
