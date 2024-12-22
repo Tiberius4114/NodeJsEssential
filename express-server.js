@@ -1,29 +1,14 @@
 const express = require("express")
 const app = express()
 const path = require("path")
-const qs = require("querystring")
 const bodyParser = require("body-parser")
-
 const methodOverride = require("method-override")
 
-const mySystemMiddleware = (req, res, next) => {
-  const url = req.url
-  switch (url) {
-    case "/":
-      console.log("root middleware")
-      break
-    case "/products":
-      console.log("products middleware")
-      break
-    case "/contact-us":
-      console.log("contact-us middleware")
-      break
-  }
-  next()
-}
+//Import routes
+const homeRoutes = require("./routes/home")
+const adminRoutes = require("./routes/admin")
 
 //using body parser as req methods listeners
-
 // app.use((req, res, next) => {
 //   let data = ""
 //   req.on("data", (chunk) => {
@@ -59,52 +44,8 @@ app.use(
   })
 )
 
-app.get("/", mySystemMiddleware, (req, res) => {
-  //to get project directory path we could use process.cwd() and __dirname
-  //also using path to join them or join them with plus +
-  const root_path = path.join(process.cwd(), "./views/index.html")
-  //   const root_path = path.join(__dirname, "./views/index.html")
-  //   const root_path = __dirname + "/views/index.html"
-  res.sendFile(root_path)
-})
-
-app.get("/products", mySystemMiddleware, (req, res) => {
-  const root_path = path.join(process.cwd(), "./views/products.html")
-  res.sendFile(root_path)
-})
-
-app.get("/products/:param", (req, res) => {
-  const { param } = req.params
-  //check param is slug or id
-  if (/^\d+$/.test(param)) {
-    res.end(JSON.stringify({ id: param }))
-  } else {
-    res.end(JSON.stringify({ slug: param }))
-  }
-})
-
-//if we define static param after dynamic param that we defined above,above param got execute
-//if we place flowing code above dynamic route it will be execute
-app.get("/products/data", (req, res) => {
-  res.send("data")
-})
-
-app.get("/contact-us", mySystemMiddleware, (req, res) => {
-  const root_path = path.join(process.cwd(), "./views/contact-us.html")
-  res.sendFile(root_path)
-})
-
-app.post("/contact-us", mySystemMiddleware, (req, res) => {
-  // res.send(req.body)
-  res.send(`${JSON.stringify(req.body)},this is a post request`)
-})
-
-app.delete("/contact-us", mySystemMiddleware, (req, res) => {
-  res.send(`${JSON.stringify(req.body)},this is a delete request`)
-})
-app.patch("/contact-us", mySystemMiddleware, (req, res) => {
-  res.send(`${JSON.stringify(req.body)},this is a patch request`)
-})
+app.use("/", homeRoutes)
+app.use("/admin", adminRoutes)
 
 app.use((req, res, next) => {
   res.status(404).sendFile(path.join(__dirname, "./views/not-found.html"))
