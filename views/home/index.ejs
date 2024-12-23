@@ -6,7 +6,14 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>root page</h1>
+    <h1><%= title %></h1>
+    <ul>
+      <% list.forEach((i)=>{ %>
+      <!-- using <li/> tag: -->
+      <!-- <li><%= i %></li> -->
+      <!-- using layouts that imported from other files -->
+      <%- include("./layouts/item",{item:i}) %> <% }) %>
+    </ul>
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae ipsum
       assumenda vitae ex possimus quis magni fugit architecto nostrum, esse

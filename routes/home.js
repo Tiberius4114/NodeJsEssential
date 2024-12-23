@@ -21,7 +21,7 @@ const homeMiddleware = (req, res, next) => {
 router.get("/", homeMiddleware, (req, res) => {
   //to get project directory path we could use process.cwd() and __dirname
   //also using path to join them or join them with plus +
-  const root_path = path.join(process.cwd(), "/views/index.html")
+  // const root_path = path.join(process.cwd(), "/views/index.ejs")
   //   const p_path = path.join(process.cwd(), "/views/p-index.html")
   //   const p_path_2 = path.join(process.cwd(), "/views/p-index2.html")
   //   const p_path_3 = path.join(process.cwd(), "/views/p-index3.html")
@@ -32,8 +32,15 @@ router.get("/", homeMiddleware, (req, res) => {
 
   //   const root_path = path.join(__dirname, "./views/index.html")
   //   const root_path = __dirname + "/views/index.html"
-  res.sendFile(root_path)
+  // res.sendFile(root_path)
   //   res.send("ok")
+
+  //using ejs for render files
+
+  let db_title = "showing view with ejs"
+  let my_list = ["item 101", "item 102", "item 103"]
+
+  res.render("home/index", { title: db_title, list: my_list })
 })
 
 //PRODUCTS :

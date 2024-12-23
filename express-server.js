@@ -4,6 +4,9 @@ const path = require("path")
 const bodyParser = require("body-parser")
 const methodOverride = require("method-override")
 
+//by default express follows this route to find files
+app.set("views", "./views")
+app.set("view engine", "ejs")
 //Import routes
 const homeRoutes = require("./routes/home")
 const adminRoutes = require("./routes/admin")
