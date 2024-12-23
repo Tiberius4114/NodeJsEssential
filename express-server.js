@@ -3,6 +3,7 @@ const app = express()
 const path = require("path")
 const bodyParser = require("body-parser")
 const methodOverride = require("method-override")
+const cookieParser = require("cookie-parser")
 
 //by default express follows this route to find files
 app.set("views", "./views")
@@ -25,6 +26,7 @@ const adminRoutes = require("./routes/admin")
 
 //using body parser as bodyParser module
 
+app.use(cookieParser())
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -52,7 +54,8 @@ app.use("/", homeRoutes)
 app.use("/admin", adminRoutes)
 
 app.use((req, res, next) => {
-  res.status(404).sendFile(path.join(__dirname, "./views/not-found.html"))
+  // res.status(404).sendFile(path.join(__dirname, "./views/not-found"))
+  res.status(404).render("not-found")
 })
 
 app.listen(3012, "127.0.0.1", () => {

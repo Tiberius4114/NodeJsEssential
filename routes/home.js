@@ -39,14 +39,24 @@ router.get("/", homeMiddleware, (req, res) => {
 
   let db_title = "showing view with ejs"
   let my_list = ["item 101", "item 102", "item 103"]
+  res.cookie("name", "mohammad", {
+    maxAge: 24 * 7 * 60 * 60 * 1000,
+    httpOnly: true,
+  })
+  res.cookie("family", "zahedi", {
+    maxAge: 24 * 7 * 60 * 60 * 1000,
+    httpOnly: true,
+  })
 
+  console.log(req.cookies, "COOKIES")
   res.render("home/index", { title: db_title, list: my_list })
 })
 
 //PRODUCTS :
 router.get("/products", homeMiddleware, (req, res) => {
-  const root_path = path.join(process.cwd(), "/views/products.html")
-  res.sendFile(root_path)
+  // const root_path = path.join(process.cwd(), "/views/products.html")
+  // res.sendFile(root_path)
+  res.render("products")
 })
 
 router.get("/products/:param", (req, res) => {
@@ -65,8 +75,9 @@ router.get("/products/:param", (req, res) => {
 router
   .route("/contact-us")
   .get((req, res) => {
-    const root_path = path.join(process.cwd(), "/views/contact-us.html")
-    res.sendFile(root_path)
+    // const root_path = path.join(process.cwd(), "/views/contact-us.html")
+    // res.sendFile(root_path)
+    res.render("contact-us")
   })
   .post(homeMiddleware, (req, res) => {
     // res.send(req.body)
