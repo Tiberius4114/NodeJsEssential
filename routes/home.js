@@ -48,7 +48,15 @@ router.get("/", homeMiddleware, (req, res) => {
     httpOnly: true,
   })
 
-  console.log(req.cookies, "COOKIES")
+  // console.log(req.cookies, "COOKIES")
+
+  if (req.session.view) {
+    req.session.view += 1
+  } else {
+    req.session.view = 1
+  }
+  console.log(req.session, "SESSION")
+
   res.render("home/index", { title: db_title, list: my_list })
 })
 

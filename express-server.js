@@ -4,6 +4,9 @@ const path = require("path")
 const bodyParser = require("body-parser")
 const methodOverride = require("method-override")
 const cookieParser = require("cookie-parser")
+const session = require("express-session")
+
+const FileStore = require("session-file-store")(session)
 
 //by default express follows this route to find files
 app.set("views", "./views")
@@ -24,9 +27,27 @@ const adminRoutes = require("./routes/admin")
 //   })
 // })
 
+app.use(cookieParser())
+
+var sess = {
+  store: new FileStore({}),
+  secret: "ymnxnxfxjxxntsxjhwjyhtij",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    // maxAge: 1000 * 5,
+  },
+}
+
+if (app.get("env") === "production") {
+  app.set("trust proxy", 1) // trust first proxy
+  sess.cookie.secure = true // serve secure cookies
+}
+
+app.use(session(sess))
+
 //using body parser as bodyParser module
 
-app.use(cookieParser())
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
