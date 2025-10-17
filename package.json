@@ -5,6 +5,7 @@
   "main": "express-server.js",
   "scripts": {
     "start": "nodemon",
+    "express-server": "nodemon express-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

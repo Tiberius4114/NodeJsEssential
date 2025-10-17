@@ -131,3 +131,4 @@ dist
 
 # ignore test web files
 web/
+public/
