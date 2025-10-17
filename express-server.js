@@ -76,10 +76,32 @@ app.get("/products", mySystemMiddleware, (req, res) => {
   const root_path = path.join(process.cwd(), "./views/products.html");
   res.sendFile(root_path);
 });
+
+// app.get("/products/data", (req, res) => {
+//   res.send("data");
+// });
+
+app.get("/products/:param", (req, res) => {
+  const { param } = req.params;
+  //check param is slug or id
+  if (/^\d+$/.test(param)) {
+    res.end(JSON.stringify({ id: param }));
+  } else {
+    res.end(JSON.stringify({ slug: param }));
+  }
+});
+
+//if we define static param after dynamic param that we defined above,above param got execute
+//if we place flowing code above dynamic route it will be execute(ref to line 80)
+app.get("/products/data", (req, res) => {
+  res.send("data");
+});
+
 app.get("/contact-us", mySystemMiddleware, (req, res) => {
   const root_path = path.join(process.cwd(), "./views/contact-us.html");
   res.sendFile(root_path);
 });
+
 app.post("/contact-us", mySystemMiddleware, (req, res) => {
   res.send(req.body);
 });
