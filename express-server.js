@@ -18,25 +18,26 @@ const mySystemMiddleware = (req, res, next) => {
 
       break;
     case "/contact-us":
-      if (req.method === "POST") {
-        let chunks = [];
+      // if (req.method === "POST") {
+      //   let chunks = [];
 
-        req.on("data", (data) => {
-          chunks.push(data);
-        });
+      //   req.on("data", (data) => {
+      //     chunks.push(data);
+      //   });
 
-        req.on("end", () => {
-          const data = Buffer.concat(chunks);
-          const formData = data.toString();
+      //   req.on("end", () => {
+      //     const data = Buffer.concat(chunks);
+      //     const formData = data.toString();
 
-          req.body = qs.parse(formData);
-          next();
-        });
-      } else {
-        next();
-      }
+      //     req.body = qs.parse(formData);
+      //     next();
+      //   });
+      // } else {
+      //   next();
+      // }
 
       console.log("contact-us middleware");
+      next();
       break;
   }
 };
